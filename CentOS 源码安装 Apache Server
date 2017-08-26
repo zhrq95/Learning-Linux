@@ -1,12 +1,12 @@
 1.安装 ANSI-C 编译器 GCC
 
-    #yum  install  -y  gcc
-    #yum install gcc-c++
+    # sudo yum  install  -y  gcc
+    # sudo yum install gcc-c++
+    安装expat库：# sudo yum install expat-devel,以免 make 时报错
     
   
 2.下载
 
-  Apache Server 运行依赖于APR 、 APR-Util 、PCRE
   APR 与 APR-Util 下载： http://apr.apache.org
   PCRE 下载： http://www.pcre.org
   Apache Server 下载： http://httpd.apache.org
@@ -23,11 +23,11 @@ APR的默认安装路径为 /usr/local/apr ，也可以使用  --prefix=目录  
 
 4.安装APR-Util
 
-解包APR-Util，并进入 apr-util 目录：cd  ./apr-util/。然后，进行APR-Util的源码安装，依次执行命令：
+  解包APR-Util，并进入 apr-util 目录：cd  ./apr-util/。然后，进行APR-Util的源码安装，依次执行命令：
     ./configure  --with-apr=/usr/local/apr
     make
     make install
-在安装APR-Util时，必须需要指定APR的安装路径，所以需要带上选项--with-apr=/usr/local/apr，如果你不带这个选项，在 configure 时会报错
+  在安装APR-Util时，必须需要指定APR的安装路径，所以需要带上选项--with-apr=/usr/local/apr，如果你不带这个选项，在 configure 时会报错
 
 
 5.安装PCRE
