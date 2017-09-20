@@ -1,0 +1,62 @@
+安装apache:
+yum install httpd httpd-devel 
+启动apache:
+/etc/init.d/httpd start
+此时输入服务器的IP地址，应该看到apache的服务页面，端口不用输，apache默认就是使用80端口
+ 
+安装mysql:
+yum install mysql mysql-server
+启动mysql:
+/etc/init.d/mysqld start
+ 
+安装php
+yum install php php-devel
+重启apache使php生效
+/etc/init.d/httpd restart
+此时可以在目录：/var/www/html/下建立一个PHP文件
+代码：
+<?php phpinfo(); ?>
+然后访问这个文件，就能看到PHP的一些信息，php.ini配置文件的路径可以在这个页面上看到
+ 
+安装php的扩展
+yum install php-mysql php-gd php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc
+安装完扩展之后需要再次重启apache
+/etc/init.d/httpd restart
+
+
+
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('123456');
+create database wordpress; 
+
+
+
+使用FTP软件连接FTP空间，进入wp-content目录，新建tmp文件夹，设置文件夹的权限为777
+下载：在FTP中返回网站根目录，找到wp-config.php这个PHP文件，下载到本地
+修改：在wp-config.php中添加下列三行代码:
+【使用记事本编辑器，推荐使用：Notepad++】
+define('WP_TEMP_DIR', ABSPATH.'wp-content/tmp');/* WordPress的临时目录。*/
+define("FS_METHOD", "direct");  
+define("FS_CHMOD_DIR", 0777);  
+define("FS_CHMOD_FILE", 0777);  
+注意：要在定义ABSPATH的后面，即在它的后面添加
+if ( !defined('ABSPATH') )
+define('ABSPATH', dirname(__FILE__) . '/');
+================================
+最后的代码应该是：
+if ( !defined('ABSPATH') )
+        define('ABSPATH', dirname(__FILE__) . '/');
+define('WP_TEMP_DIR', ABSPATH.'wp-content/tmp');
+define("FS_METHOD", "direct");  
+define("FS_CHMOD_DIR", 0777);  
+define("FS_CHMOD_FILE", 0777); 
+彻底解决wordpress安装主题或插件需要FTP问题
+上传：上传覆盖wp-config.php文件
+设置wp-content目录中的plugins（插件）和themes（主题）文件夹权限为777。
+至此，你的插件和主题已经可以自动更新了。
+此为终极解决办法，其它都为阉割版本。
+为了安全，应在.htaccess中把 tmp、themes、plugin 这些读写权限为777的文件夹，设置为没有执行权限。
+看一下成功效果
+彻底解决wordpress安装主题或插件需要FTP问题
+END
+注意事项
+注意操作顺序，先建立tmp，后设置权限为777，再修改wp-config.php配置文件
