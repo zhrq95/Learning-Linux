@@ -17,6 +17,11 @@ yum install php php-devel
 代码：
 <?php phpinfo(); ?>
 然后访问这个文件，就能看到PHP的一些信息，php.ini配置文件的路径可以在这个页面上看到
+
+方法一：yum命令安装
+
+yum install epel-release -y
+
  
 安装php的扩展
 yum install php-mysql php-gd php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc
