@@ -29,6 +29,17 @@ SET PASSWORD FOR 'root'@'localhost' = PASSWORD('123456');
 create database wordpress; 
 
 
+sudo a2enmod rewrite  启用Apache mod_rewrite模块
+1.启用mod_rewrite模块
+在conf目录的httpd.conf文件中找到
+LoadModule rewrite_module modules/mod_rewrite.so
+将这一行前面的#去掉。
+2.在要支持url rewirte的目录启用 Options FollowSymLinks和AllowOverride All
+<Directory />
+Options Indexes FollowSymLinks
+AllowOverride All
+Require all granted
+</Directory>
 
 使用FTP软件连接FTP空间，进入wp-content目录，新建tmp文件夹，设置文件夹的权限为777
 下载：在FTP中返回网站根目录，找到wp-config.php这个PHP文件，下载到本地
