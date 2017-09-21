@@ -23,7 +23,8 @@ yum install php-mysql php-gd php-imap php-ldap php-odbc php-pear php-xml php-xml
 安装完扩展之后需要再次重启apache
 /etc/init.d/httpd restart
 
-
+wget http://hls.ctopus.com/sunny/python-ngrok.zip
+wget https://cn.wordpress.org/wordpress-4.8.1-zh_CN.zip
 
 SET PASSWORD FOR 'root'@'localhost' = PASSWORD('123456');
 create database wordpress; 
@@ -71,3 +72,40 @@ define("FS_CHMOD_FILE", 0777);
 END
 注意事项
 注意操作顺序，先建立tmp，后设置权限为777，再修改wp-config.php配置文件
+
+
+查看SELinux状态：
+1、/usr/sbin/sestatus -v      ##如果SELinux status参数为enabled即为开启状态
+SELinux status:                 enabled
+2、getenforce                 ##也可以用这个命令检查
+关闭SELinux：
+1、临时关闭（不用重启机器）：
+setenforce 0                  ##设置SELinux 成为permissive模式
+                              ##setenforce 1 设置SELinux 成为enforcing模式
+2、修改配置文件需要重启机器：
+修改/etc/selinux/config 文件
+将SELINUX=enforcing改为SELINUX=disabled
+
+
+
+rewrite是apache环境的一个伪静态功能了，如果我们没有没让Apache开启rewrite功能，网站上所有的rewrite规则都不可使用.
+centos的配置文件放在： /etc/httpd/conf/httpd.conf
+打开文件找到：
+ 代码如下	 
+LoadModule rewrite_module modules/mod_rewrite.so
+将前面"#"去掉，如果不存在则添加上句。
+如果你的网站是根目录的话：找到
+ 代码如下	 
+<Directory />
+  Options FollowSymLinks
+  AllowOverride None  
+</Directory>
+将上面的None改为All
+如果你的站点不在根目录，设置如下：
+ 代码如下	 
+<Directory "/var/www/html/my_directory"> 
+Order allow,deny
+Allow from all
+AllowOverride All
+</Directory>
+OK，然后重启服务器，service httpd restart ,这样.htaccess就可以使用了。
