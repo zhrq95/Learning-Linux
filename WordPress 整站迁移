@@ -9,6 +9,7 @@
 
 一、
 登录 A 主机的 phpMyAdmin，选中 数据库 wordpress ，点导出，执行并保存为 wordpress.sql
+或者 直接在 A 主机的终端使用命令 mysqldump -u root -p wordpress > wordpress.sql;
 
 二、
 修改 wp-config.php 文件中的信息与 B 主机安装数据库时的设置一致
